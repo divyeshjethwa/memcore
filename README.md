@@ -23,6 +23,8 @@ npm run build
 npm test
 ```
 
+A clean checkout should pass `npm ci`, `npm test`, and `npm run build`.
+
 ## MCP client configuration
 
 Point your MCP-compatible assistant at the MemCore server command.
