@@ -68,6 +68,30 @@ Input:
 }
 ```
 
+### `get_memory`
+
+Retrieves one memory by ID.
+
+Input:
+
+```json
+{
+  "id": 1
+}
+```
+
+### `list_memory_versions`
+
+Lists immutable version history for one memory.
+
+Input:
+
+```json
+{
+  "memoryId": 1
+}
+```
+
 ### `update_memory`
 
 Updates a memory by ID and preserves the previous content in version history.

@@ -3,7 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 
 import { openDatabase } from "./db.js";
-import { createMemory, restoreMemoryVersion, searchMemories, updateMemory } from "./memoryStore.js";
+import { createMemory, getMemory, listMemoryVersions, restoreMemoryVersion, searchMemories, updateMemory } from "./memoryStore.js";
 import { initializeSchema } from "./schema.js";
 
 export interface McpServerOptions {
@@ -53,6 +53,42 @@ export function createMcpServer(options: McpServerOptions = {}): McpServer {
       return {
         content: [{ type: "text", text: `Found ${memories.length} memories` }],
         structuredContent: { memories },
+      };
+    },
+  );
+
+  server.registerTool(
+    "get_memory",
+    {
+      description: "Retrieve a memory by ID.",
+      inputSchema: {
+        id: z.number().int(),
+      },
+    },
+    ({ id }) => {
+      const memory = getMemory(db, id);
+
+      return {
+        content: [{ type: "text", text: memory.content }],
+        structuredContent: { memory },
+      };
+    },
+  );
+
+  server.registerTool(
+    "list_memory_versions",
+    {
+      description: "List immutable version history for a memory.",
+      inputSchema: {
+        memoryId: z.number().int(),
+      },
+    },
+    ({ memoryId }) => {
+      const versions = listMemoryVersions(db, memoryId);
+
+      return {
+        content: [{ type: "text", text: `Found ${versions.length} versions` }],
+        structuredContent: { versions },
       };
     },
   );

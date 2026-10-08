@@ -8,7 +8,7 @@
     "memcore": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc --noEmit",
+    "build": "tsc",
     "test": "vitest run"
   },
   "devDependencies": {
